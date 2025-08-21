@@ -1,6 +1,6 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Box, Checkbox, Icon, IconButton, Tab, Tabs} from "@material-ui/core";
-import {TestUrl} from "../shared/models/EnumsAndTypes";
+import React, { useContext, useEffect, useState } from "react";
+import { Box, Checkbox, Icon, IconButton, Tab, Tabs } from "@material-ui/core";
+import { TestUrl } from "../shared/models/EnumsAndTypes";
 import Axios from "axios";
 import CardContent from "@material-ui/core/CardContent";
 import Table from "@material-ui/core/Table";
@@ -9,11 +9,11 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Card from "@material-ui/core/Card";
-import {CurrentUser, GlobalDialog, GlobalSnackbar} from "../shared/ReactContexts";
+import { CurrentUser, GlobalDialog, GlobalSnackbar } from "../shared/ReactContexts";
 import Loading from "../layouts/components/Loading";
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 import Tooltip from "@material-ui/core/Tooltip";
-import {BasicTaskModel} from "../shared/models/BasicTaskModel";
+import { BasicTaskModel } from "../shared/models/BasicTaskModel";
 
 export default function () {
   // Change Test URL and the active tab will change
@@ -23,29 +23,30 @@ export default function () {
 
   return <>
     <Tabs value={testUrl} onChange={handleChange} indicatorColor="primary" aria-label="simple tabs example">
-      <Tab label="AB Test" value='ab-test'/>
-      <Tab label="Acr Test" value='acr-test'/>
-      <Tab label="Mushra Test" value='mushra-test'/>
-      <Tab label="Hearing Sensitivity Test" value='hearing-test'/>
+      <Tab label="AB Test" value='ab-test' />
+      <Tab label="Acr Test" value='acr-test' />
+      <Tab label="Mushra Test" value='mushra-test' />
+      <Tab label="ABC/HR Test" value='abchr-test' />
+      <Tab label="Hearing Sensitivity Test" value='hearing-test' />
     </Tabs>
     <Box paddingTop={2}>
-      {testUrl && <TemplatesList testUrl={testUrl}/>}
+      {testUrl && <TemplatesList testUrl={testUrl} />}
     </Box>
   </>
 }
 
-function TemplatesList({testUrl}: { testUrl: TestUrl }) {
-  const {templates, templatesError, handleIsTemplateChange, handleTemplateEdit} = useTemplateList(testUrl);
-  const {currentUser} = useContext(CurrentUser);
+function TemplatesList({ testUrl }: { testUrl: TestUrl }) {
+  const { templates, templatesError, handleIsTemplateChange, handleTemplateEdit } = useTemplateList(testUrl);
+  const { currentUser } = useContext(CurrentUser);
 
-  return <>{templates ? <Card><CardContent style={{padding: 0}}><Table>
+  return <>{templates ? <Card><CardContent style={{ padding: 0 }}><Table>
     <TableHead>
       <TableRow>
         <TableCell>Name</TableCell>
         <TableCell>Created At</TableCell>
         <TableCell>Creator</TableCell>
         <TableCell>Template</TableCell>
-        <TableCell/>
+        <TableCell />
       </TableRow>
     </TableHead>
     <TableBody>
@@ -54,12 +55,12 @@ function TemplatesList({testUrl}: { testUrl: TestUrl }) {
         <TableCell>{new Date(test.createdAt?.$date).toLocaleString()}</TableCell>
         <TableCell>{test.creator.name}</TableCell>
         <TableCell>
-          <Checkbox color="primary" checked={!!test.isTemplate} onChange={() => handleIsTemplateChange(test)}/>
+          <Checkbox color="primary" checked={!!test.isTemplate} onChange={() => handleIsTemplateChange(test)} />
         </TableCell>
         <TableCell>
           {currentUser._id.$oid === test.creator._id.$oid && <Tooltip title="Edit Template">
             <IconButton size="medium" color="primary"
-                        onClick={() => handleTemplateEdit(test)}><Icon>edit</Icon></IconButton>
+              onClick={() => handleTemplateEdit(test)}><Icon>edit</Icon></IconButton>
           </Tooltip>}
         </TableCell>
       </TableRow>)}
@@ -67,7 +68,7 @@ function TemplatesList({testUrl}: { testUrl: TestUrl }) {
         There is no template here. You can add template by a checkbox on the list of each test.
       </TableCell></TableRow>}
     </TableBody>
-  </Table></CardContent></Card> : <Loading error={templatesError}/>}</>
+  </Table></CardContent></Card> : <Loading error={templatesError} />}</>
 }
 
 /** This hook is reusable. There are two place using this hook: TemplatesList and TestListPage */
@@ -79,7 +80,7 @@ export function useTemplateList(testUrl: TestUrl) {
   const history = useHistory();
 
   useEffect(() => {
-    Axios.get('/api/template', {params: {testType: testUrl}}).then(res => setTemplates(res.data),
+    Axios.get('/api/template', { params: { testType: testUrl } }).then(res => setTemplates(res.data),
       reason => setTemplatesError(reason.response.data));
     // Unmount process to make sure data in current tab will change
     return () => {
@@ -90,7 +91,7 @@ export function useTemplateList(testUrl: TestUrl) {
 
   const handleIsTemplateChange = (test: BasicTaskModel) => {
     // Create a request method for reusing purpose
-    const openRequest = () => Axios.put<boolean>('/api/template', {_id: test._id}, {params: {testType: testUrl}}).then(res => {
+    const openRequest = () => Axios.put<boolean>('/api/template', { _id: test._id }, { params: { testType: testUrl } }).then(res => {
       test.isTemplate = res.data;
       // Append test at the end
       if (test.isTemplate) setTemplates([...templates, test]);
@@ -114,5 +115,5 @@ export function useTemplateList(testUrl: TestUrl) {
     ); else history.push(`/user/${testUrl}/${aTest._id.$oid}`);
   }
 
-  return {templates, templatesError, handleIsTemplateChange, handleTemplateEdit};
+  return { templates, templatesError, handleIsTemplateChange, handleTemplateEdit };
 }

@@ -10,6 +10,7 @@ from handlers.download_csv.hearing_test_csv_download import HearingTestCsvDownlo
 from handlers.download_csv.image_ab_csv_download import ImageAbCsvDownload
 from handlers.download_csv.image_labeling_csv_download import ImageLabelingCsvDownload
 from handlers.download_csv.mushra_test_csv_download import MushraTestCsvDownload
+from handlers.download_csv.abchr_test_csv_download import AbchrTestCsvDownload
 from handlers.download_csv.video_ab_csv_download import VideoAbCsvDownload
 from handlers.download_csv.video_labeling_csv_download import VideoLabelingCsvDownload
 from handlers.administration.storage_status import StorageStatusHandler
@@ -24,6 +25,7 @@ from handlers.test_and_survey.hearing_test import HearingTestHandler, HearingSur
 from handlers.test_and_survey.image_ab_task import ImageAbHandler, ImageAbSurveyHandler
 from handlers.test_and_survey.image_labeling_task import ImageLabelingHandler, ImageLabelingSurveyHandler
 from handlers.test_and_survey.audio_mushra_test import MushraTestHandler, MushraSurveyHandler
+from handlers.test_and_survey.audio_abchr_test import AbchrTestHandler, AbchrSurveyHandler
 from handlers.miscellanea.responses_count import ResponsesCountHandler
 from handlers.download_csv.ab_test_responses_download import AbTestResponsesDownload
 from handlers.miscellanea.test_responses import TestResponsesHandler
@@ -62,6 +64,10 @@ path = [
     ("/api/mushra-test", MushraTestHandler),
     ("/api/csv-download/mushra-test", MushraTestCsvDownload),
     ("/api/task/mushra-test", MushraSurveyHandler),
+
+    ("/api/abchr-test", AbchrTestHandler),
+    ("/api/csv-download/abchr-test", AbchrTestCsvDownload),
+    ("/api/task/abchr-test", AbchrSurveyHandler),
 
     ("/api/hearing-test", HearingTestHandler),
     ("/api/csv-download/hearing-test", HearingTestCsvDownload),

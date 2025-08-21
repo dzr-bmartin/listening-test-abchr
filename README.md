@@ -4,7 +4,7 @@ An open source platform for browser based speech and audio subjective quality te
 
 Use the app free at https://golisten.ucd.ie/ or host yourself using this open source repo
 
-This repo gives you a fully functional end-to-end listening test platform which allows a user to create and share MUSHRA, ACR and A/B tests within minutes. Collected data can then be downloaded in CSV or JSON format. 
+This repo gives you a fully functional end-to-end listening test platform which allows a user to create and share MUSHRA, ACR, A/B and ABC/HR tests within minutes. Collected data can then be downloaded in CSV or JSON format. 
 
 ## Run with docker and docker compose or with aws
 
