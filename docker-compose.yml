@@ -12,7 +12,8 @@ services:
       - 27017:27017
 
   backend:
-    build: 'server/'
+    build:
+      dockerfile: 'Dockerfile.backend'
     expose:
       - '8889'
     ports:
@@ -23,12 +24,13 @@ services:
     command: python3 server.py
 
   frontend:
-    build: 'html/'
+    build:
+      dockerfile: 'Dockerfile.frontend'
     expose:
-      - '80'
+      - '8080'
       - '443'
     ports:
-      - '80:80'
+      - '8080:8080'
       - '443:443'
     links:
       - backend
