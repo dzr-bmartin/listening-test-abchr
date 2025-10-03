@@ -1,10 +1,11 @@
-import {UserModel} from "./UserModel";
-import {TestItemType} from "./EnumsAndTypes";
-import {SurveyControlModel} from "./SurveyControlModel";
+import { UserModel } from "./UserModel";
+import { TestItemType } from "./EnumsAndTypes";
+import { SurveyControlModel } from "./SurveyControlModel";
 
 export interface TestSettingsModel {
   isIndividual?: boolean;
   isTimed?: boolean;
+  numberOfExamples?: number;
 }
 /** Those basic models should not be used directly, except shared component. */
 export interface BasicTaskModel {

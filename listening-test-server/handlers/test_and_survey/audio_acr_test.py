@@ -6,6 +6,7 @@ from bson import ObjectId
 from handlers.base import BaseHandler
 from handlers.miscellanea.task_name_mapping import get_task_url_by_collection
 
+import random
 
 class AcrTestHandler(BaseHandler):
     # Authorization and set task/surveys collection names
@@ -86,6 +87,8 @@ class AcrSurveyHandler(BaseHandler):
         data = self.db[self.taskCollectionName].find_one(
             {'_id': ObjectId(_id)}, {'_id': 0, 'createdAt': 0, 'modifiedAt': 0}
         )
+        if 'settings' in data and data['settings']['numberOfExamples'] > 0:
+            data['items'] = random.sample(data['items'], min(data['settings']['numberOfExamples'], len(data['items'])))
         # Add testId field, it will appear in response after user's submission
         data['testId'] = ObjectId(_id)
         self.dumps_write(data)

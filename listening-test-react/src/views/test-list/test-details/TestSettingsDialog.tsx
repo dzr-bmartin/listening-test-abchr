@@ -5,16 +5,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {Checkbox, FormControlLabel, FormGroup, IconButton, Tooltip} from "@material-ui/core";
+import { Checkbox, FormControlLabel, FormGroup, IconButton, Input, Tooltip } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
-import {useFormik} from "formik";
-import {TestSettingsModel} from "../../../shared/models/BasicTaskModel";
-import {observer} from "mobx-react";
+import { useFormik } from "formik";
+import { TestSettingsModel } from "../../../shared/models/BasicTaskModel";
+import { observer } from "mobx-react";
 
 export const TestSettingsDialog = observer(function (props: { settings: TestSettingsModel, onConfirm: (settings: TestSettingsModel) => void }) {
   const [open, setOpen] = React.useState(false);
   const formik = useFormik<TestSettingsModel>({
-    initialValues: {isIndividual: false, isTimed: false},
+    initialValues: { isIndividual: false, isTimed: false },
     onSubmit: values => {
       props.onConfirm(values);
       setOpen(false);
@@ -22,7 +22,7 @@ export const TestSettingsDialog = observer(function (props: { settings: TestSett
   });
 
   const handleClickOpen = () => {
-    formik.setValues({isIndividual: false, isTimed: false, ...props.settings});
+    formik.setValues({ isIndividual: false, isTimed: false, ...props.settings });
     setOpen(true);
   }
   const handleClose = () => setOpen(false);
@@ -40,12 +40,16 @@ export const TestSettingsDialog = observer(function (props: { settings: TestSett
           </DialogContentText>
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox checked={formik.values.isIndividual} {...formik.getFieldProps('isIndividual')}/>}
+              control={<Checkbox checked={formik.values.isIndividual} {...formik.getFieldProps('isIndividual')} />}
               label="Show each question individually"
             />
             <FormControlLabel
-              control={<Checkbox checked={formik.values.isTimed} {...formik.getFieldProps('isTimed')}/>}
+              control={<Checkbox checked={formik.values.isTimed} {...formik.getFieldProps('isTimed')} />}
               label="Time each question"
+            />
+            <FormControlLabel
+              control={<Input id="numberOfExamples" type="number" {...formik.getFieldProps('numberOfExamples')} />}
+              label="Number of random examples that will be showed at each session (0 means all)"
             />
           </FormGroup>
         </DialogContent>
